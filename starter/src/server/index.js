@@ -1,61 +1,69 @@
-require('dotenv').config()
-const express = require('express')
-const bodyParser = require('body-parser')
-const fetch = require('node-fetch')
-const path = require('path')
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
+const path = require("path");
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.use('/', express.static(path.join(__dirname, '../public')))
+app.use("/", express.static(path.join(__dirname, "../public")));
 
 // your API calls
 
-//Get Curiosity
-app.get('/curiosity', async (req, res) => {
-    try {
-        const data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key=${process.env.API_KEY}`)
-            .then(data => data.json())
-             res.send(data)
-    } catch (err) {
-        console.log('error:', err);
-    }
-})
+app.get('/RoverDetails', async (req, res) => {
+  try{
+    
+    let temp = 0;
 
-//Get Opportunity
-app.get('/opportunity', async (req, res) => {
-    try {
-        const data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/latest_photos?api_key=${process.env.API_KEY}`)
-            .then(data => data.json())
-             res.send(data)
-    } catch (err) {
-        console.log('error:', err);
-    }
-})
+    while(temp <= 4){
+    
+    const RoverName = req.query.name;
+    console.log(RoverName);
+    const URL = `https://api.nasa.gov/mars-photos/api/v1/rovers/${RoverName}/latest_photos?api_key=${process.env.API_KEY}`;
+    const RoverData = await fetch(URL)
+    .then((res) => res.json());
 
-//Get Spirit
-app.get('/spirit', async (req, res) => {
-    try {
-        const data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/latest_photos?api_key=${process.env.API_KEY}`)
-            .then(data => data.json())
-             res.send(data)
-    } catch (err) {
-        console.log('error:', err);
+    if(RoverName === undefined){
+      console.log("No data receved");
+      temp++;
+      continue;
     }
-})
+  
+    console.log(RoverData);
+  
+    const rover = {
+      rover: RoverData.latest_photos.reduce((acc, ctr) => {return ctr.rover.name}),
+      landing_date: RoverData.latest_photos.reduce((acc, ctr) => {return ctr.rover.landing_date}),
+      launch_date: RoverData.latest_photos.reduce((acc, ctr) => {return ctr.rover.launch_date}),
+      status: RoverData.latest_photos.reduce((acc, ctr) => {return ctr.status}),
+      img_src: RoverData.latest_photos.map(img => img.img_src),
+    }
+  
+    console.log(rover);
+  
+    res.send(rover);
+    break;
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+  
+});
 
-// example API call
-app.get('/apod', async (req, res) => {
-    try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
+app.get('/apod', async(req, res) => {
+    try{
+        const image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
+        .then(res => res.json())
+        console.log(image);
         res.send({ image })
-    } catch (err) {
-        console.log('error:', err);
+    } catch (error){
+        console.log('Error' ,error);
     }
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
