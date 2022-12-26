@@ -11,7 +11,7 @@ let store = Immutable.Map({
 const root = document.getElementById("root");
 
 const updateStore = (store, newState) => {
-  store = Object.assign(store, newState);
+  store = store.set(store, newState);
   render(root, store);
 };
 
@@ -22,7 +22,7 @@ const render = async (root, state) => {
 // create content
 const App = (store) => {
   const SelectedRover = store.get("SelectedRover");
-  const rover = store.get("rovers").get("SelectedRover");
+  const rover = store.get("SelectedRover");
   const RovrerArray = Object.keys(store.get("rovers").toObject());
 
   return `
@@ -32,7 +32,7 @@ const App = (store) => {
         ${Selected(RovrerArray, SelectedRover)}
         </div>  
       <div class="RoverInfo"> 
-          ${RoverInfo(rover)}
+          ${rover}
        <div> 
           ${newPhotos()}
         </div>
@@ -63,7 +63,7 @@ const Greeting = (name) => {
 };
 
 // Example of a pure function that renders infomation requested from the backend
-const ImageOfTheDay = (apod) => {
+/* const ImageOfTheDay = (apod) => {
   // If image does not already exist, or it is not from today -- request it again
   const today = new Date();
   const photodate = new Date(apod.date);
@@ -88,10 +88,11 @@ const ImageOfTheDay = (apod) => {
         `;
   }
 };
-
+*/
 // ------------------------------------------------------  API CALLS
 
 // Example API call
+/*
 const getImageOfTheDay = (state) => {
   let { apod } = state;
 
@@ -103,19 +104,19 @@ const getImageOfTheDay = (state) => {
 
   return data;
 };
+*/
 
 const UpdateRover = (rover) => {
-  updateStore(store, { SelectedRover: rover });
-  return store;
+  updateStore(store, rover);
+  RoverInfo(rover);
 };
 
 const Selected = (RovrerArray, SelectedRover) => {
   return RovrerArray.map((rover) => {
-    if (rover === SelectedRover) {
-      UpdateRover(SelectedRover);
+    if (rover.toLowerCase() === SelectedRover.toLowerCase()) {
       return `<button style="color:red" onclick="UpdateRover('${rover}')"> ${rover} </button>`;
     } else {
-      return `<button style="color:Blue" onlick="UpdateRover('${rover}')"> ${rover} </button>`;
+      return `<button style="color:Blue" onclick="UpdateRover('${rover}')"> ${rover} </button>`;
     }
   });
 };
@@ -161,7 +162,11 @@ const RoverInfo = (rover) => {
   fetch(`http://localhost:3000/RoverDetails?name=${rover}`)
     .then((res) => res.json)
     .then((data) => {
-      rover = data.RoverName;
-      return updateStore(store, { rover });
+      console.log("Received Data from Backend: ", data);
+      state.set("SelectedRover", rover);
+      const rover = store.get("SelectedRover", RoverName);
+      newRoverInfo(rover);
+      newPhotos(rover);
+      return updateStore(store, rover);
     });
 };
