@@ -27,13 +27,13 @@ app.get('/RoverDetails', async (req, res) => {
     const RoverData = await fetch(URL)
     .then((res) => res.json());
 
+    console.log(RoverData);
+
     if(RoverName === undefined){
       console.log("No data receved");
       temp++;
       continue;
     }
-  
-    console.log(RoverData);
   
     const rover = {
       rover: RoverData.latest_photos.reduce((acc, ctr) => {return ctr.rover.name}),
