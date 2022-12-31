@@ -137,11 +137,10 @@ const updatePhoto = (array) => {
 };
 
 //const newPhotos = () => {
- //   return updatePhoto(rover.toArray());
+//   return updatePhoto(rover.toArray());
 //};
 
-const newRoverInfo = () => {
-  const rover = RoverInfo();
+const newRoverInfo = (rover) => {
   return `
   <div class="RoverInfo">
   <ul> 
@@ -156,16 +155,15 @@ const newRoverInfo = () => {
 
 const updateRoverInfo = () => {
   const rover = store.get("SelectedRover");
-  if (rover != undefined){
-    return newRoverInfo()
+  if (rover != undefined) {
+    const details = RoverInfo(rover);
+    return newRoverInfo(details);
   }
 };
 
-const RoverInfo = (rover) => {
-  fetch(`http://localhost:3000/RoverDetails?name=${rover}`)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log("Received Data from Backend: ", data);
-      return data; 
-    });
+const RoverInfo = async (rover) => {
+  const res = await fetch(`http://localhost:3000/RoverDetails?name=${rover}`);
+  const data = await res.json();
+  console.log("Received Data from Backend: ", data);
+  return data;
 };
