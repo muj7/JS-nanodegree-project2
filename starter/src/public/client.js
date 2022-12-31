@@ -34,7 +34,7 @@ const App = (store) => {
       <div class="RoverInfo"> 
           ${rover}
        <div> 
-          ${updateRoverInfo()}
+          ${updateRoverInfo(rover)}
         </div>
         </div> 
         </main>
@@ -68,12 +68,10 @@ const Greeting = (name) => {
   const today = new Date();
   const photodate = new Date(apod.date);
   console.log(photodate.getDate(), today.getDate());
-
   console.log(photodate.getDate() === today.getDate());
   if (!apod || apod.date === today.getDate()) {
     getImageOfTheDay(store);
   }
-
   // check if the photo of the day is actually type video!
   if (apod.media_type === "video") {
     return `
@@ -95,21 +93,19 @@ const Greeting = (name) => {
 /*
 const getImageOfTheDay = (state) => {
   let { apod } = state;
-
   fetch(
     `https://r950324c957034xreactr0lcusuk-3000.udacity-student-workspaces.com/apod`
   )
     .then((res) => res.json())
     .then((apod) => updateStore(store, { apod }));
-
   return data;
 };
 */
 
 const UpdateRover = async (rover) => {
   store = store.set(store.SelectedRover, rover);
-  await updateStore(store, rover);
-  await RoverInfo(rover);
+  updateStore(store, rover);
+  //await RoverInfo(rover);
 };
 
 const Selected = (RovrerArray, SelectedRover) => {
@@ -154,11 +150,14 @@ const newRoverInfo = async (rover) => {
   `;
 };
 
-const updateRoverInfo = async () => {
-  const rover = store.get("SelectedRover");
+const updateRoverInfo = async (rover) => {
   if (rover != undefined) {
     const details = await RoverInfo(rover);
-    return newRoverInfo(details);
+    console.log(details);
+    const dispaly = await newRoverInfo(details)
+    return dispaly;
+  } else {
+    return "";
   }
 };
 
