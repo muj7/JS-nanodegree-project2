@@ -34,7 +34,7 @@ const App = (store) => {
       <div class="RoverInfo"> 
           ${rover}
        <div> 
-          ${newPhotos()}
+          ${updateRoverInfo()}
         </div>
         </div> 
         </main>
@@ -136,14 +136,12 @@ const updatePhoto = (array) => {
     .join("");
 };
 
-const newPhotos = () => {
-  if (store.rover) {
-    return updatePhoto(rover.toArray());
-  }
-  return "";
-};
+//const newPhotos = () => {
+ //   return updatePhoto(rover.toArray());
+//};
 
-const newRoverInfo = (rover) => {
+const newRoverInfo = () => {
+  const rover = RoverInfo();
   return `
   <div class="RoverInfo">
   <ul> 
@@ -151,22 +149,23 @@ const newRoverInfo = (rover) => {
     <li>${rover.landing_date}</li>
     <span>Launch Date</span>
     <li>${rover.launch_date}</li>
-    <span>Status</span>
-    <li>${rover.status}</li>
   </ul>
   </div> 
   `;
 };
 
+const updateRoverInfo = () => {
+  const rover = store.get("SelectedRover");
+  if (rover != undefined){
+    return newRoverInfo()
+  }
+};
+
 const RoverInfo = (rover) => {
   fetch(`http://localhost:3000/RoverDetails?name=${rover}`)
-    .then((res) => res.json)
+    .then((res) => res.json())
     .then((data) => {
       console.log("Received Data from Backend: ", data);
-      state.set("SelectedRover", rover);
-      const rover = store.get("SelectedRover", RoverName);
-      newRoverInfo(rover);
-      newPhotos(rover);
-      return updateStore(store, rover);
+      return data; 
     });
 };

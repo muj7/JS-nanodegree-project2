@@ -27,9 +27,9 @@ app.get("/RoverDetails", async (req, res) => {
       }
 
       console.log(RoverData);
-
+      
       const rover = {
-        rover: RoverData.latest_photos.reduce((acc, ctr) => {
+        name: RoverData.latest_photos.reduce((acc, ctr) => {
           return ctr.rover.name;
         }),
         landing_date: RoverData.latest_photos.reduce((acc, ctr) => {
@@ -41,7 +41,7 @@ app.get("/RoverDetails", async (req, res) => {
         status: RoverData.latest_photos.reduce((acc, ctr) => {
           return ctr.status;
         }),
-        img_src: RoverData.latest_photos.map((img) => img.img_src),
+        images: RoverData.latest_photos.map((img) => img.img_src),
       };
 
       console.log(rover);
