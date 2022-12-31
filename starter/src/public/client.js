@@ -106,9 +106,10 @@ const getImageOfTheDay = (state) => {
 };
 */
 
-const UpdateRover = (rover) => {
-  updateStore(store, rover);
-  RoverInfo(rover);
+const UpdateRover = async (rover) => {
+  store = store.set(store.SelectedRover, rover);
+  await updateStore(store, rover);
+  await RoverInfo(rover);
 };
 
 const Selected = (RovrerArray, SelectedRover) => {
@@ -140,7 +141,7 @@ const updatePhoto = (array) => {
 //   return updatePhoto(rover.toArray());
 //};
 
-const newRoverInfo = (rover) => {
+const newRoverInfo = async (rover) => {
   return `
   <div class="RoverInfo">
   <ul> 
@@ -153,10 +154,10 @@ const newRoverInfo = (rover) => {
   `;
 };
 
-const updateRoverInfo = () => {
+const updateRoverInfo = async () => {
   const rover = store.get("SelectedRover");
   if (rover != undefined) {
-    const details = RoverInfo(rover);
+    const details = await RoverInfo(rover);
     return newRoverInfo(details);
   }
 };
