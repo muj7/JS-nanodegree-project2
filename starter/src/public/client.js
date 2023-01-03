@@ -31,10 +31,10 @@ const App = (store) => {
         <div> 
         ${Selected(RovrerArray, SelectedRover)}
         </div>  
-      <div class="RoverInfo"> 
+      <div class="RoverName"> 
           ${rover}
        <div> 
-          ${updateRoverInfo(rover)}
+          ${updateRoverInfo(rover).then( (results) => results)}
         </div>
         </div> 
         </main>
@@ -102,10 +102,9 @@ const getImageOfTheDay = (state) => {
 };
 */
 
-const UpdateRover = async (rover) => {
-  store = store.set(store.SelectedRover, rover);
+const UpdateRover = (rover) => {
+  store = update(store.SelectedRover, rover);
   updateStore(store, rover);
-  //await RoverInfo(rover);
 };
 
 const Selected = (RovrerArray, SelectedRover) => {
