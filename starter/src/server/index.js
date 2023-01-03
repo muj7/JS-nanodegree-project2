@@ -24,29 +24,29 @@ app.get("/RoverDetails", async (req, res) => {
 
     if (RoverName === undefined) {
       throw new Error("No data receved");
-      }
+    }
 
-      console.log(RoverData);
-      
-      const rover = {
-        name: RoverData.latest_photos.reduce((acc, ctr) => {
-          return ctr.rover.name;
-        }),
-        landing_date: RoverData.latest_photos.reduce((acc, ctr) => {
-          return ctr.rover.landing_date;
-        }),
-        launch_date: RoverData.latest_photos.reduce((acc, ctr) => {
-          return ctr.rover.launch_date;
-        }),
-        status: RoverData.latest_photos.reduce((acc, ctr) => {
-          return ctr.status;
-        }),
-        images: RoverData.latest_photos.map((img) => img.img_src),
-      };
+    console.log(RoverData);
 
-      console.log(rover);
+    const rover = {
+      name: RoverData.latest_photos.reduce((acc, ctr) => {
+        return ctr.rover.name;
+      }),
+      landing_date: RoverData.latest_photos.reduce((acc, ctr) => {
+        return ctr.rover.landing_date;
+      }),
+      launch_date: RoverData.latest_photos.reduce((acc, ctr) => {
+        return ctr.rover.launch_date;
+      }),
+      status: RoverData.latest_photos.reduce((acc, ctr) => {
+        return ctr.rover.status;
+      }),
+      imges: RoverData.latest_photos.map((img) => img.img_src),
+    };
 
-      res.send(rover);
+    console.log(rover);
+
+    res.send(rover);
   } catch (error) {
     console.log(error);
   }

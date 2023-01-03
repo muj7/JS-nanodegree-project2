@@ -7,8 +7,16 @@ body {
   min-height: 100vh;
 }
 
+.RoverInfo{
+  margin-left: 20px;
+}
+
+.Btns{
+  margin: 0 0 15px;
+}
+
 header {
-  /* header styles */
+  margin: auto;
 }
 
 main {
@@ -17,7 +25,7 @@ main {
 }
 
 footer {
-  /* footer styles */
+  margin: auto;
 }
 
 /* -------------------  TABLET  --------------------- */

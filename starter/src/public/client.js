@@ -25,18 +25,17 @@ const App = (store) => {
   const rover = store.get("SelectedRover");
   const RovrerArray = Object.keys(store.get("rovers").toObject());
 
+  updateRoverInfo(rover).then((results) => {
+    results;
+    document.getElementById("RoverInfo").innerHTML = results;
+  });
+
   return `
         <header></header>
         <main>
-        <div> 
+        <div class="Btns"> 
         ${Selected(RovrerArray, SelectedRover)}
         </div>  
-      <div class="RoverName"> 
-          ${rover}
-       <div> 
-          ${updateRoverInfo(rover).then( (results) => results)}
-        </div>
-        </div> 
         </main>
         <footer></footer>
     `;
@@ -103,8 +102,8 @@ const getImageOfTheDay = (state) => {
 */
 
 const UpdateRover = (rover) => {
-  store = update(store.SelectedRover, rover);
-  updateStore(store, rover);
+  store = store.set("SelectedRover", rover);
+  updateStore(store, store);
 };
 
 const Selected = (RovrerArray, SelectedRover) => {
@@ -117,19 +116,9 @@ const Selected = (RovrerArray, SelectedRover) => {
   });
 };
 
-const updatePhoto = (array) => {
-  return array
-    .map(
-      (item) =>
-        ` 
-      <div> 
-      <p> Latest Photos</p>
-      <img src="${item.img_src}" >
-      </div>
-       `
-    )
-    .slice(0, 10)
-    .join("");
+const updatePhoto = (rover) => {
+  return `<img src="${rover.imges[0]}" />
+          <img src="${rover.imges[1]}" />`;
 };
 
 //const newPhotos = () => {
@@ -138,22 +127,23 @@ const updatePhoto = (array) => {
 
 const newRoverInfo = async (rover) => {
   return `
-  <div class="RoverInfo">
-  <ul> 
-    <span>Landing Date</span>
+  <ul style="list-style-type: square;"> 
+    <li>${rover.name}</li>
+    <li>Landing Date</li>
     <li>${rover.landing_date}</li>
-    <span>Launch Date</span>
+    <li>Launch Date</li>
     <li>${rover.launch_date}</li>
+    <li>Status</li>
+    <li>${rover.status}</li>
+    ${updatePhoto(rover)} 
   </ul>
-  </div> 
   `;
 };
 
 const updateRoverInfo = async (rover) => {
   if (rover != undefined) {
     const details = await RoverInfo(rover);
-    console.log(details);
-    const dispaly = await newRoverInfo(details)
+    const dispaly = await newRoverInfo(details);
     return dispaly;
   } else {
     return "";
