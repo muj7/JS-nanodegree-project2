@@ -117,8 +117,12 @@ const Selected = (RovrerArray, SelectedRover) => {
 };
 
 const updatePhoto = (rover) => {
-  return `<img src="${rover.imges[0]}" />
+  if (rover.imges[0] && rover.imges[1]) {
+    return `<img src="${rover.imges[0]}" />
           <img src="${rover.imges[1]}" />`;
+  } else {
+    return `<img src="${rover.imges[0]}" />`;
+  }
 };
 
 //const newPhotos = () => {
@@ -126,7 +130,8 @@ const updatePhoto = (rover) => {
 //};
 
 const newRoverInfo = async (rover) => {
-  return `
+  if (typeof rover.name !== "object") {
+    return `
   <ul style="list-style-type: square;"> 
     <li>${rover.name}</li>
     <li>Landing Date</li>
@@ -138,6 +143,21 @@ const newRoverInfo = async (rover) => {
     ${updatePhoto(rover)} 
   </ul>
   `;
+  } else {
+    const Objrover = Object.values(rover);
+    return `
+  <ul style="list-style-type: square;"> 
+    <li>${Objrover[0]["rover"]["name"]}</li>
+    <li>Landing Date</li>
+    <li>${Objrover[0]["rover"]["landing_date"]}</li>
+    <li>Launch Date</li>
+    <li>${Objrover[0]["rover"]["launch_date"]}</li>
+    <li>Status</li>
+    <li>${Objrover[0]["rover"]["status"]}</li>
+    ${updatePhoto(rover)} 
+  </ul>
+  `;
+  }
 };
 
 const updateRoverInfo = async (rover) => {
