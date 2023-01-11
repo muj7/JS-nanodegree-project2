@@ -100,7 +100,7 @@ const getImageOfTheDay = (state) => {
   return data;
 };
 */
-
+//Higher Order Function returning another function
 const UpdateRover = (rover) => {
   store = store.set("SelectedRover", rover);
   updateStore(store, store);
