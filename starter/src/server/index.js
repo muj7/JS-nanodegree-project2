@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 app.use("/", express.static(path.join(__dirname, "../public")));
 
 // your API calls
-
+// This function I learn it from https://github.com/jawadakhtar/nanodegree-js-marsdashboard/blob/main/src/server/index.js
+// I Learn the URL to get data and the object rover to costumize the data
 app.get("/RoverDetails", async (req, res) => {
   try {
     const RoverName = req.query.name;
