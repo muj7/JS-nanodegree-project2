@@ -28,19 +28,121 @@ footer {
   margin: auto;
 }
 
+img.Photos{
+  width: 150;
+  height: 300;
+  border-radius: 4px;
+}
+
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
-  /* use mobile */
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial;
+    min-height: 100vh;
+  }
+  
+  .RoverInfo{
+    margin-left: 20px;
+  }
+  
+  .Btns{
+    margin: 0 0 15px;
+  }
+  
+  header {
+    margin: auto;
+  }
+  
+  main {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  footer {
+    margin: auto;
+  }
+
+  img.Photos{
+    width: 200;
+    height: 400;
+    border-radius: 4px;
+  }
 }
 
 /* -------------------  DESKTOP  -------------------- */
 
 @media (min-width: 1224px) {
-  /* use mobile */
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial;
+    min-height: 100vh;
+  }
+  
+  .RoverInfo{
+    margin-left: 20px;
+  }
+  
+  .Btns{
+    margin: 0 0 15px;
+  }
+  
+  header {
+    margin: auto;
+  }
+  
+  main {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  footer {
+    margin: auto;
+  }
+
+  img.Photos{
+    width: 800;
+    height: 800;
+    border-radius: 4px;
+  }
 }
 
 /* -------------------  LARGE SCREENS  -------------- */
 
 @media (min-width: 1824px) {
-  /* use mobile */
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial;
+    min-height: 100vh;
+  }
+  
+  .RoverInfo{
+    margin-left: 20px;
+  }
+  
+  .Btns{
+    margin: 0 0 15px;
+  }
+  
+  header {
+    margin: auto;
+  }
+  
+  main {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  footer {
+    margin: auto;
+  }
+
+  img.Photos{
+    width: 800;
+    height: 1000;
+    border-radius: 4px;
+  }
 }

@@ -11,7 +11,7 @@ let store = Immutable.Map({
 const root = document.getElementById("root");
 
 const updateStore = (store, newState) => {
-  store = store.set(store, newState);
+  store = Object.assign(store, newState);
   render(root, store);
 };
 
@@ -60,10 +60,10 @@ const Greeting = (name) => {
         <h1>Hello!</h1>
     `;
 };
-
+// HOF - it is return updateStore function
 const UpdateRover = (rover) => {
-  store = store.set("SelectedRover", rover);
-  updateStore(store, store);
+  nStore = store.set("SelectedRover", rover);
+  return updateStore(store, nStore);
 };
 
 const Selected = (RovrerArray, SelectedRover) => {
@@ -97,7 +97,9 @@ const newRoverInfo = async (rover) => {
     <li>${rover.launch_date}</li>
     <li>Status</li>
     <li>${rover.status}</li>
-    ${updatePhoto(rover)} 
+    <div class="Photos">
+    ${updatePhoto(rover)}
+    </div> 
   </ul>
   `;
   } else {
@@ -116,7 +118,7 @@ const newRoverInfo = async (rover) => {
   `;
   }
 };
-
+// HOF - it is return funcitons RoverInfo and newRoverInfo
 const updateRoverInfo = async (rover) => {
   if (rover != undefined) {
     const details = await RoverInfo(rover);
